@@ -3,11 +3,20 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import { formatCurrency } from "@/lib/currency";
+
+interface MonthlyData {
+  totalIncome: number;
+  totalExpenses: number;
+  netSavings: number;
+  savingsRate: number;
+  transactionCount: number;
+}
 
 export default function MonthlySummary() {
   const [selectedMonth, setSelectedMonth] = useState("12-2024");
 
-  const { data: monthlyData } = useQuery({
+  const { data: monthlyData } = useQuery<MonthlyData>({
     queryKey: ["/api/analytics/monthly-summary"],
   });
 
@@ -19,7 +28,7 @@ export default function MonthlySummary() {
     { name: "Week 4", income: 1380, expenses: 697 },
   ];
 
-  const formatCurrency = (value: number) => `$${value.toLocaleString()}`;
+
 
   return (
     <Card className="bg-fintech-primary-800 border-fintech-primary-700">
@@ -51,7 +60,7 @@ export default function MonthlySummary() {
               <YAxis 
                 stroke="var(--fintech-primary-400)"
                 fontSize={12}
-                tickFormatter={(value) => `$${value}`}
+                tickFormatter={(value) => formatCurrency(value)}
               />
               <Tooltip
                 contentStyle={{
@@ -60,7 +69,7 @@ export default function MonthlySummary() {
                   borderRadius: "8px",
                   color: "white",
                 }}
-                formatter={(value, name) => [`$${value}`, name === "income" ? "Income" : "Expenses"]}
+                formatter={(value, name) => [formatCurrency(value as number), name === "income" ? "Income" : "Expenses"]}
               />
               <Legend
                 wrapperStyle={{ color: "white" }}

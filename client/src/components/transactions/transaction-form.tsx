@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { insertTransactionSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { z } from "zod";
+import type { Category } from "@shared/schema";
 
 const formSchema = insertTransactionSchema.extend({
   date: z.string().optional(),
@@ -23,7 +24,7 @@ export default function TransactionForm() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
   });
 
@@ -131,14 +132,14 @@ export default function TransactionForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-fintech-primary-300">Category</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value || undefined}>
                       <FormControl>
                         <SelectTrigger className="bg-fintech-primary-700 border-fintech-primary-600 text-white">
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="bg-fintech-primary-700 border-fintech-primary-600">
-                        {categories.map((category: any) => (
+                        {categories.map((category: Category) => (
                           <SelectItem key={category.id} value={category.id}>
                             {category.name}
                           </SelectItem>

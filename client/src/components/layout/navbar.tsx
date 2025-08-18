@@ -30,13 +30,13 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
-                <a className={`transition-colors duration-200 ${
+                <span className={`transition-colors duration-200 cursor-pointer ${
                   location === item.href 
                     ? "text-white" 
                     : "text-fintech-primary-300 hover:text-white"
                 }`}>
                   {item.label}
-                </a>
+                </span>
               </Link>
             ))}
           </div>

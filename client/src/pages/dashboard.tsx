@@ -5,18 +5,28 @@ import ExpenseChart from "@/components/dashboard/expense-chart";
 import SpendingTrend from "@/components/dashboard/spending-trend";
 import FloatingWallet from "@/components/3d/floating-wallet";
 import PiggyBank from "@/components/3d/piggy-bank";
+import { formatCurrency } from "@/lib/currency";
 import { DollarSign, TrendingDown, Target, TrendingUp } from "lucide-react";
+import type { Transaction, Goal } from "@shared/schema";
+
+interface MonthlyData {
+  totalIncome: number;
+  totalExpenses: number;
+  netSavings: number;
+  savingsRate: number;
+  transactionCount: number;
+}
 
 export default function Dashboard() {
-  const { data: transactions = [] } = useQuery({
+  const { data: transactions = [] } = useQuery<Transaction[]>({
     queryKey: ["/api/transactions"],
   });
 
-  const { data: goals = [] } = useQuery({
+  const { data: goals = [] } = useQuery<Goal[]>({
     queryKey: ["/api/goals"],
   });
 
-  const { data: monthlyData } = useQuery({
+  const { data: monthlyData } = useQuery<MonthlyData>({
     queryKey: ["/api/analytics/monthly-summary"],
   });
 
@@ -25,7 +35,7 @@ export default function Dashboard() {
     : 24580;
 
   const monthlyExpenses = monthlyData?.totalExpenses || 3247;
-  const savingsGoals = goals.reduce((sum, goal) => sum + parseFloat(goal.currentAmount || "0"), 0);
+  const savingsGoals = goals.reduce((sum: number, goal: Goal) => sum + parseFloat(goal.currentAmount || "0"), 0);
   const projectedSavings = monthlyData?.netSavings || 1205;
 
   return (
@@ -80,7 +90,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             <StatsCard
               title="Total Balance"
-              value={`$${totalBalance.toLocaleString()}`}
+              value={formatCurrency(totalBalance)}
               change="+12.5%"
               changeType="positive"
               icon={<DollarSign />}
@@ -88,7 +98,7 @@ export default function Dashboard() {
             />
             <StatsCard
               title="Monthly Expenses"
-              value={`$${monthlyExpenses.toLocaleString()}`}
+              value={formatCurrency(monthlyExpenses)}
               change="-5.2%"
               changeType="negative"
               icon={<TrendingDown />}
@@ -96,7 +106,7 @@ export default function Dashboard() {
             />
             <StatsCard
               title="Savings Goals"
-              value={`$${Math.round(savingsGoals).toLocaleString()}`}
+              value={formatCurrency(Math.round(savingsGoals))}
               change="+8.1%"
               changeType="positive"
               icon={<Target />}
@@ -104,7 +114,7 @@ export default function Dashboard() {
             />
             <StatsCard
               title="Next Month"
-              value={`$${projectedSavings.toLocaleString()}`}
+              value={formatCurrency(projectedSavings)}
               change="Predicted"
               changeType="neutral"
               icon={<TrendingUp />}

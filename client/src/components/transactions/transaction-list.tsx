@@ -6,7 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { formatCurrency } from "@/lib/currency";
 import { Search, Filter, Utensils, Car, Film, ShoppingBag, Receipt, Briefcase, Laptop, Trash2 } from "lucide-react";
+import type { Transaction, Category } from "@shared/schema";
 
 const iconMap = {
   utensils: Utensils,
@@ -23,11 +25,11 @@ export default function TransactionList() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: transactions = [], isLoading } = useQuery({
+  const { data: transactions = [], isLoading } = useQuery<Transaction[]>({
     queryKey: ["/api/transactions"],
   });
 
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
   });
 
@@ -53,9 +55,9 @@ export default function TransactionList() {
     },
   });
 
-  const categoryMap = new Map(categories.map((cat: any) => [cat.id, cat]));
+  const categoryMap = new Map(categories.map((cat: Category) => [cat.id, cat]));
 
-  const filteredTransactions = transactions.filter((transaction: any) =>
+  const filteredTransactions = transactions.filter((transaction: Transaction) =>
     transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -142,9 +144,9 @@ export default function TransactionList() {
                   <p className="text-fintech-primary-500 text-sm">Start by adding your first transaction</p>
                 </div>
               ) : (
-                filteredTransactions.map((transaction: any, index: number) => {
-                  const category = categoryMap.get(transaction.categoryId);
-                  const IconComponent = getTransactionIcon(transaction.categoryId);
+                filteredTransactions.map((transaction: Transaction, index: number) => {
+                  const category = categoryMap.get(transaction.categoryId || "");
+                  const IconComponent = getTransactionIcon(transaction.categoryId || "");
                   
                   return (
                     <motion.div
@@ -169,7 +171,7 @@ export default function TransactionList() {
                           <p className={`font-semibold ${
                             transaction.type === "income" ? "text-fintech-accent-green" : "text-red-400"
                           }`}>
-                            {transaction.type === "income" ? "+" : "-"}${parseFloat(transaction.amount).toFixed(2)}
+                            {transaction.type === "income" ? "+" : "-"}{formatCurrency(parseFloat(transaction.amount))}
                           </p>
                           <p className="text-sm text-fintech-primary-400">{formatDate(transaction.date)}</p>
                         </div>

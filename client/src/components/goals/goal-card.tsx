@@ -10,10 +10,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import { formatCurrency } from "@/lib/currency";
 import { insertGoalSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { Plus, Target, Calendar } from "lucide-react";
 import { z } from "zod";
+import type { Goal } from "@shared/schema";
 
 const formSchema = insertGoalSchema.extend({
   deadline: z.string().optional(),
@@ -26,7 +28,7 @@ export default function GoalCard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: goals = [], isLoading } = useQuery({
+  const { data: goals = [], isLoading } = useQuery<Goal[]>({
     queryKey: ["/api/goals"],
   });
 
@@ -137,10 +139,10 @@ export default function GoalCard() {
                     </div>
                     <div className="text-right">
                       <p className="text-2xl font-bold text-white">
-                        ${parseFloat(goal.currentAmount).toLocaleString()}
+                        {formatCurrency(parseFloat(goal.currentAmount))}
                       </p>
                       <p className="text-sm text-fintech-primary-400">
-                        of ${parseFloat(goal.targetAmount).toLocaleString()}
+                        of {formatCurrency(parseFloat(goal.targetAmount))}
                       </p>
                     </div>
                   </div>

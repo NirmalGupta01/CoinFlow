@@ -117,6 +117,59 @@ export class MemStorage implements IStorage {
       };
       this.goals.set(goal.id, goal);
     });
+
+    // Add sample transactions
+    const categoryIds = Array.from(this.categories.values()).filter(c => c.userId === demoUser.id);
+    const sampleTransactions = [
+      {
+        amount: "1250.00",
+        description: "Grocery shopping at local market",
+        type: "expense",
+        categoryId: categoryIds.find(c => c.name === "Food & Dining")?.id,
+        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+      },
+      {
+        amount: "5000.00",
+        description: "Monthly salary",
+        type: "income",
+        categoryId: categoryIds.find(c => c.name === "Salary")?.id,
+        date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+      },
+      {
+        amount: "85.50",
+        description: "Uber ride to airport",
+        type: "expense",
+        categoryId: categoryIds.find(c => c.name === "Transportation")?.id,
+        date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+      },
+      {
+        amount: "1500.00",
+        description: "Online shopping - Electronics",
+        type: "expense",
+        categoryId: categoryIds.find(c => c.name === "Shopping")?.id,
+        date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+      },
+      {
+        amount: "450.00",
+        description: "Electricity bill",
+        type: "expense",
+        categoryId: categoryIds.find(c => c.name === "Bills & Utilities")?.id,
+        date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), // 4 days ago
+      },
+    ];
+
+    sampleTransactions.forEach((transactionData) => {
+      const transaction: Transaction = {
+        id: randomUUID(),
+        userId: demoUser.id,
+        categoryId: transactionData.categoryId || null,
+        amount: transactionData.amount,
+        description: transactionData.description,
+        type: transactionData.type as "expense" | "income",
+        date: transactionData.date,
+      };
+      this.transactions.set(transaction.id, transaction);
+    });
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -182,6 +235,7 @@ export class MemStorage implements IStorage {
       ...transaction,
       id,
       userId,
+      categoryId: transaction.categoryId || null,
       date: transaction.date || new Date(),
     };
     this.transactions.set(id, newTransaction);
@@ -217,6 +271,8 @@ export class MemStorage implements IStorage {
       ...goal,
       id,
       userId,
+      description: goal.description || null,
+      deadline: goal.deadline || null,
       currentAmount: "0",
       achieved: false,
     };
@@ -271,7 +327,12 @@ export class MemStorage implements IStorage {
 
   async createBudget(userId: string, budget: InsertBudget): Promise<Budget> {
     const id = randomUUID();
-    const newBudget: Budget = { ...budget, id, userId };
+    const newBudget: Budget = { 
+      ...budget, 
+      id, 
+      userId,
+      categoryId: budget.categoryId || null
+    };
     this.budgets.set(id, newBudget);
     return newBudget;
   }

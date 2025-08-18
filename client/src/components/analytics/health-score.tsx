@@ -3,6 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, Share, Settings } from "lucide-react";
 
+interface MonthlyData {
+  totalIncome: number;
+  totalExpenses: number;
+  netSavings: number;
+  savingsRate: number;
+  transactionCount: number;
+}
+
 interface ScoreIndicatorProps {
   label: string;
   value: number;
@@ -32,7 +40,7 @@ function ScoreIndicator({ label, value, max }: ScoreIndicatorProps) {
 }
 
 export default function HealthScore() {
-  const { data: monthlyData } = useQuery({
+  const { data: monthlyData } = useQuery<MonthlyData>({
     queryKey: ["/api/analytics/monthly-summary"],
   });
 

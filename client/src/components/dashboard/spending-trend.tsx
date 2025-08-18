@@ -2,9 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import type { Transaction } from "@shared/schema";
 
 export default function SpendingTrend() {
-  const { data: transactions = [] } = useQuery({
+  const { data: transactions = [] } = useQuery<Transaction[]>({
     queryKey: ["/api/transactions"],
   });
 
@@ -12,14 +13,14 @@ export default function SpendingTrend() {
   const trendData = Array.from({ length: 7 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - (6 - i));
-    const dayTransactions = transactions.filter((t: any) => {
+    const dayTransactions = transactions.filter((t: Transaction) => {
       const transactionDate = new Date(t.date);
       return transactionDate.toDateString() === date.toDateString();
     });
     
     const totalExpenses = dayTransactions
-      .filter((t: any) => t.type === "expense")
-      .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0);
+      .filter((t: Transaction) => t.type === "expense")
+      .reduce((sum: number, t: Transaction) => sum + parseFloat(t.amount), 0);
 
     return {
       name: date.toLocaleDateString("en-US", { weekday: "short" }),
