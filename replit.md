@@ -37,9 +37,11 @@ Preferred communication style: Simple, everyday language.
 - **Sample Data**: In-memory storage implementation for development/demo purposes with plans for PostgreSQL integration
 
 ### Authentication Strategy
-- **Current State**: Demo user implementation for development
-- **Session Management**: Connect-pg-simple for PostgreSQL session storage (prepared for future auth implementation)
-- **Security**: Prepared infrastructure for user authentication and authorization
+- **JWT Authentication**: Implemented secure JWT-based authentication with access tokens (15min) and refresh tokens (7d)
+- **User Management**: Complete signup/login system with bcrypt password hashing and email validation
+- **Google OAuth**: Google login integration with OAuth 2.0 flow (placeholder implementation ready for production secrets)
+- **Session Management**: Token-based authentication with automatic refresh and secure storage
+- **Security Features**: Password requirements, token expiration, refresh token rotation, secure logout
 
 ### API Architecture
 - **REST Endpoints**: Organized by resource type (categories, transactions, goals, budgets, analytics)

@@ -1,9 +1,28 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import {
+  handleSignup,
+  handleLogin,
+  handleRefreshToken,
+  handleLogout,
+  handleProfile,
+  handleGoogleAuth,
+  handleGoogleCallback,
+  authenticateToken,
+} from "./auth";
 import { insertTransactionSchema, insertGoalSchema, insertCategorySchema, insertBudgetSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  
+  // Authentication routes
+  app.post('/api/auth/signup', handleSignup);
+  app.post('/api/auth/login', handleLogin);
+  app.post('/api/auth/refresh', handleRefreshToken);
+  app.post('/api/auth/logout', handleLogout);
+  app.get('/api/auth/profile', authenticateToken, handleProfile);
+  app.get('/api/auth/google', handleGoogleAuth);
+  app.get('/api/auth/google/callback', handleGoogleCallback);
   const demoUserId = "demo-user"; // For demo purposes
 
   // Categories

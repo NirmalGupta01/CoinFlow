@@ -1,9 +1,11 @@
 import { Link, useLocation } from "wouter";
-import { Coins, Bell, User } from "lucide-react";
+import { Coins, Bell, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth";
 
 export default function Navbar() {
   const [location] = useLocation();
+  const { user, logout } = useAuth();
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
@@ -11,6 +13,10 @@ export default function Navbar() {
     { href: "/goals", label: "Goals" },
     { href: "/analytics", label: "Analytics" },
   ];
+
+  const handleLogout = async () => {
+    await logout();
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-fintech-primary-800/80 backdrop-blur-lg border-b border-fintech-primary-700">
@@ -45,9 +51,22 @@ export default function Navbar() {
             <Button variant="ghost" size="sm" className="p-2 text-fintech-primary-300 hover:text-white">
               <Bell size={18} />
             </Button>
-            <div className="w-8 h-8 gradient-fintech-secondary rounded-full flex items-center justify-center">
-              <User size={16} className="text-white" />
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 gradient-fintech-secondary rounded-full flex items-center justify-center">
+                <User size={16} className="text-white" />
+              </div>
+              {user && (
+                <span className="text-fintech-primary-300 text-sm hidden md:block">{user.name}</span>
+              )}
             </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleLogout}
+              className="p-2 text-fintech-primary-300 hover:text-white"
+            >
+              <LogOut size={18} />
+            </Button>
           </div>
         </div>
       </div>
