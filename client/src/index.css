@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(222.2, 84%, 4.9%);
+  --foreground: hsl(210, 40%, 98%);
+  --card: hsl(222.2, 84%, 4.9%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --popover: hsl(222.2, 84%, 4.9%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --primary: hsl(210, 40%, 98%);
+  --primary-foreground: hsl(222.2, 84%, 4.9%);
+  --secondary: hsl(217.2, 32.6%, 17.5%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --muted: hsl(217.2, 32.6%, 17.5%);
+  --muted-foreground: hsl(215, 20.2%, 65.1%);
+  --accent: hsl(217.2, 32.6%, 17.5%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --border: hsl(217.2, 32.6%, 17.5%);
+  --input: hsl(217.2, 32.6%, 17.5%);
+  --ring: hsl(212.7, 26.8%, 83.9%);
+  --chart-1: hsl(220, 70%, 50%);
+  --chart-2: hsl(160, 60%, 45%);
+  --chart-3: hsl(30, 80%, 55%);
+  --chart-4: hsl(280, 65%, 60%);
+  --chart-5: hsl(340, 75%, 55%);
+  
+  /* Fintech Theme Colors */
+  --fintech-primary-900: hsl(220, 39%, 11%);
+  --fintech-primary-800: hsl(215, 28%, 17%);
+  --fintech-primary-700: hsl(215, 20%, 27%);
+  --fintech-primary-600: hsl(215, 16%, 35%);
+  --fintech-primary-500: hsl(215, 20%, 43%);
+  --fintech-primary-400: hsl(215, 16%, 58%);
+  --fintech-primary-300: hsl(221, 39%, 83%);
+  --fintech-primary-200: hsl(210, 40%, 91%);
+  --fintech-primary-100: hsl(210, 40%, 96%);
+  
+  --fintech-accent-blue: hsl(217, 91%, 60%);
+  --fintech-accent-green: hsl(158, 79%, 43%);
+  --fintech-accent-purple: hsl(262, 83%, 63%);
+
+  --font-inter: 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(222.2, 84%, 4.9%);
+  --foreground: hsl(210, 40%, 98%);
+  --card: hsl(222.2, 84%, 4.9%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --popover: hsl(222.2, 84%, 4.9%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --primary: hsl(210, 40%, 98%);
+  --primary-foreground: hsl(222.2, 84%, 4.9%);
+  --secondary: hsl(217.2, 32.6%, 17.5%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --muted: hsl(217.2, 32.6%, 17.5%);
+  --muted-foreground: hsl(215, 20.2%, 65.1%);
+  --accent: hsl(217.2, 32.6%, 17.5%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --border: hsl(217.2, 32.6%, 17.5%);
+  --input: hsl(217.2, 32.6%, 17.5%);
+  --ring: hsl(212.7, 26.8%, 83.9%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-fintech-primary-900 text-white font-inter antialiased min-h-screen;
+    font-family: var(--font-inter);
+  }
+}
+
+@layer utilities {
+  .bg-fintech-primary-900 {
+    background-color: var(--fintech-primary-900);
+  }
+  .bg-fintech-primary-800 {
+    background-color: var(--fintech-primary-800);
+  }
+  .bg-fintech-primary-700 {
+    background-color: var(--fintech-primary-700);
+  }
+  .bg-fintech-primary-600 {
+    background-color: var(--fintech-primary-600);
+  }
+  .bg-fintech-primary-500 {
+    background-color: var(--fintech-primary-500);
+  }
+  .bg-fintech-primary-400 {
+    background-color: var(--fintech-primary-400);
+  }
+  .bg-fintech-primary-300 {
+    background-color: var(--fintech-primary-300);
+  }
+  .bg-fintech-primary-200 {
+    background-color: var(--fintech-primary-200);
+  }
+  .bg-fintech-primary-100 {
+    background-color: var(--fintech-primary-100);
+  }
+  
+  .text-fintech-primary-900 {
+    color: var(--fintech-primary-900);
+  }
+  .text-fintech-primary-800 {
+    color: var(--fintech-primary-800);
+  }
+  .text-fintech-primary-700 {
+    color: var(--fintech-primary-700);
+  }
+  .text-fintech-primary-600 {
+    color: var(--fintech-primary-600);
+  }
+  .text-fintech-primary-500 {
+    color: var(--fintech-primary-500);
+  }
+  .text-fintech-primary-400 {
+    color: var(--fintech-primary-400);
+  }
+  .text-fintech-primary-300 {
+    color: var(--fintech-primary-300);
+  }
+  .text-fintech-primary-200 {
+    color: var(--fintech-primary-200);
+  }
+  .text-fintech-primary-100 {
+    color: var(--fintech-primary-100);
+  }
+
+  .bg-fintech-accent-blue {
+    background-color: var(--fintech-accent-blue);
+  }
+  .bg-fintech-accent-green {
+    background-color: var(--fintech-accent-green);
+  }
+  .bg-fintech-accent-purple {
+    background-color: var(--fintech-accent-purple);
+  }
+  
+  .text-fintech-accent-blue {
+    color: var(--fintech-accent-blue);
+  }
+  .text-fintech-accent-green {
+    color: var(--fintech-accent-green);
+  }
+  .text-fintech-accent-purple {
+    color: var(--fintech-accent-purple);
+  }
+
+  .border-fintech-primary-700 {
+    border-color: var(--fintech-primary-700);
+  }
+  .border-fintech-primary-600 {
+    border-color: var(--fintech-primary-600);
+  }
+
+  .font-inter {
+    font-family: var(--font-inter);
+  }
+
+  .gradient-fintech-primary {
+    background: linear-gradient(135deg, var(--fintech-accent-blue), var(--fintech-accent-purple));
+  }
+  
+  .gradient-fintech-secondary {
+    background: linear-gradient(135deg, var(--fintech-accent-green), var(--fintech-accent-blue));
+  }
+  
+  .gradient-fintech-tertiary {
+    background: linear-gradient(135deg, var(--fintech-accent-purple), var(--fintech-accent-green));
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { 
+    transform: translateY(20px); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--fintech-primary-800);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--fintech-primary-600);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fintech-accent-blue);
+}
